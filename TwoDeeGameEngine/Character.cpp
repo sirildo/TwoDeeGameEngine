@@ -6,19 +6,10 @@ Character::Character(int x, int y, int width, int height)
 }
 
 void Character::update() {
-    if (movingUp) {
-        y -= speed;
-        std::cout << "Moving up. New Y: " << y << std::endl;
-    }
-    if (movingDown) {
-        y += speed;
-    }
-    if (movingLeft) {
-        x -= speed;
-    }
-    if (movingRight) {
-        x += speed;
-    }
+    if (movingUp) y -= speed;
+    if (movingDown) y += speed;
+    if (movingLeft) x -= speed;
+    if (movingRight) x += speed;
 }
 
 void Character::setMovingUp(bool moving) {
@@ -38,14 +29,9 @@ void Character::setMovingRight(bool moving) {
 }
 
 void Character::draw(SDL_Renderer* renderer, int cameraX, int cameraY) {
-    // Adjust position by camera offset
-    SDL_Rect rect = { x - cameraX, y - cameraY, width, height };
-
-    // Set the drawing color for character (e.g., red)
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-
-    // Draw the rectangle
-    SDL_RenderFillRect(renderer, &rect);
+    SDL_Rect rect = { x - cameraX, y - cameraY, width, height };     // Adjust position by camera offset
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Set the drawing color for character (e.g., red)
+    SDL_RenderFillRect(renderer, &rect); // Draw the rectangle
 }
 
 int Character::getX() const {
@@ -55,3 +41,4 @@ int Character::getX() const {
 int Character::getY() const {
     return y;
 }
+

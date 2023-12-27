@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
     SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
 
     Character character(100, 100, 50, 50); // Create a character
-    Level level(renderer, "twodeebg.png"); // Create a level
+    Level level(renderer, "twodeebg.png", screenWidth, screenHeight); // Create a level
 
 
     // Frame rate configuration
@@ -40,61 +40,41 @@ int main(int argc, char* argv[]) {
             if (event.type == SDL_QUIT) {
                 isRunning = false;
             }
-            else if (event.type == SDL_KEYDOWN) {
-                switch (event.key.keysym.sym) {
-                case SDLK_w:
-                    character.setMovingUp(true);
-
-                    break;
-                case SDLK_s:
-                    character.setMovingDown(true);
-                    break;
-                case SDLK_a:
-                    character.setMovingLeft(true);
-                    break;
-                case SDLK_d:
-                    character.setMovingRight(true);
-                    break;
-                }
+            else if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
+                if (event.key.keysym.sym == SDLK_w) character.setMovingUp(true);
+                else if (event.key.keysym.sym == SDLK_s) character.setMovingDown(true);
+                else if (event.key.keysym.sym == SDLK_a) character.setMovingLeft(true);
+                else if (event.key.keysym.sym == SDLK_d) character.setMovingRight(true);
             }
             else if (event.type == SDL_KEYUP) {
-                switch (event.key.keysym.sym) {
-                case SDLK_w:
-                    character.setMovingUp(false);
-                    break;
-                case SDLK_a:
-                    character.setMovingDown(false);
-                    break;
-                case SDLK_s:
-                    character.setMovingLeft(false);
-                    break;
-                case SDLK_d:
-                    character.setMovingRight(false);
-                    break;
-                }
+                if (event.key.keysym.sym == SDLK_w) character.setMovingUp(false);
+                else if (event.key.keysym.sym == SDLK_s) character.setMovingDown(false);
+                else if (event.key.keysym.sym == SDLK_a) character.setMovingLeft(false);
+                else if (event.key.keysym.sym == SDLK_d) character.setMovingRight(false);
             }
             
         }
 
-        character.update(); // Update character's position
-        level.update(); // Update the level
+        // Update character's position
+        character.update(); 
+        // Update the level
+        level.update(); 
+        // Update camera position based on character position
+        level.updateCamera(character.getX(), character.getY());
+
 
         // Clear screen
         SDL_RenderClear(renderer);
 
-        // Center the camera on the character
-        cameraX = character.getX() - (screenWidth / 2);
-        cameraY = character.getY() - (screenHeight / 2);
-
         level.draw(renderer); // Draw the level with camera offset
-        character.draw(renderer, cameraX, cameraY); // Draw the character with camera offset
+        character.draw(renderer, level.getCameraX(), level.getCameraY()); // Draw the character with camera offset
+        
         SDL_RenderPresent(renderer); // Update screen
 
         // Frame time management
         frameTime = SDL_GetTicks() - frameStart;
-        if (frameDelay > frameTime) {
-            SDL_Delay(frameDelay - frameTime);
-        }
+        if (frameDelay > frameTime) SDL_Delay(frameDelay - frameTime);
+        
     }
 
     SDL_DestroyRenderer(renderer);
@@ -103,15 +83,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
