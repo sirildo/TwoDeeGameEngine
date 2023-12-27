@@ -40,6 +40,40 @@ int main(int argc, char* argv[]) {
             if (event.type == SDL_QUIT) {
                 isRunning = false;
             }
+            else if (event.type == SDL_KEYDOWN) {
+                switch (event.key.keysym.sym) {
+                case SDLK_w:
+                    character.setMovingUp(true);
+
+                    break;
+                case SDLK_s:
+                    character.setMovingDown(true);
+                    break;
+                case SDLK_a:
+                    character.setMovingLeft(true);
+                    break;
+                case SDLK_d:
+                    character.setMovingRight(true);
+                    break;
+                }
+            }
+            else if (event.type == SDL_KEYUP) {
+                switch (event.key.keysym.sym) {
+                case SDLK_w:
+                    character.setMovingUp(false);
+                    break;
+                case SDLK_a:
+                    character.setMovingDown(false);
+                    break;
+                case SDLK_s:
+                    character.setMovingLeft(false);
+                    break;
+                case SDLK_d:
+                    character.setMovingRight(false);
+                    break;
+                }
+            }
+            
         }
 
         character.update(); // Update character's position
