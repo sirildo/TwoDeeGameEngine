@@ -6,6 +6,29 @@
 #include "Character.h"
 #include "Level.h"
 
+// Event handling function
+void handleEvents(bool& isRunning, Character& character) {
+    SDL_Event event;
+    // Event handling
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            isRunning = false;
+        }
+        else if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
+            if (event.key.keysym.sym == SDLK_w) character.setMovingUp(true);
+            else if (event.key.keysym.sym == SDLK_s) character.setMovingDown(true);
+            else if (event.key.keysym.sym == SDLK_a) character.setMovingLeft(true);
+            else if (event.key.keysym.sym == SDLK_d) character.setMovingRight(true);
+        }
+        else if (event.type == SDL_KEYUP) {
+            if (event.key.keysym.sym == SDLK_w) character.setMovingUp(false);
+            else if (event.key.keysym.sym == SDLK_s) character.setMovingDown(false);
+            else if (event.key.keysym.sym == SDLK_a) character.setMovingLeft(false);
+            else if (event.key.keysym.sym == SDLK_d) character.setMovingRight(false);
+        }
+
+    }
+}
 
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
@@ -30,30 +53,13 @@ int main(int argc, char* argv[]) {
     int cameraY = 0;
 
     bool isRunning = true;
-    SDL_Event event;
+
 
     while (isRunning) { // Start of game loop
+  
         frameStart = SDL_GetTicks();
+        handleEvents(isRunning, character);
 
-        // Event handling
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                isRunning = false;
-            }
-            else if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
-                if (event.key.keysym.sym == SDLK_w) character.setMovingUp(true);
-                else if (event.key.keysym.sym == SDLK_s) character.setMovingDown(true);
-                else if (event.key.keysym.sym == SDLK_a) character.setMovingLeft(true);
-                else if (event.key.keysym.sym == SDLK_d) character.setMovingRight(true);
-            }
-            else if (event.type == SDL_KEYUP) {
-                if (event.key.keysym.sym == SDLK_w) character.setMovingUp(false);
-                else if (event.key.keysym.sym == SDLK_s) character.setMovingDown(false);
-                else if (event.key.keysym.sym == SDLK_a) character.setMovingLeft(false);
-                else if (event.key.keysym.sym == SDLK_d) character.setMovingRight(false);
-            }
-            
-        }
 
         // Update character's position
         character.update(); 
@@ -65,17 +71,19 @@ int main(int argc, char* argv[]) {
 
         // Clear screen
         SDL_RenderClear(renderer);
-
-        level.draw(renderer); // Draw the level with camera offset
-        character.draw(renderer, level.getCameraX(), level.getCameraY()); // Draw the character with camera offset
-        
-        SDL_RenderPresent(renderer); // Update screen
-
+        // Draw the level with camera offset
+        level.draw(renderer); 
+        // Draw the character with camera offset
+        character.draw(renderer, level.getCameraX(), level.getCameraY()); 
+        // Update screen
+        SDL_RenderPresent(renderer);
         // Frame time management
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime) SDL_Delay(frameDelay - frameTime);
         
     }
+
+
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
