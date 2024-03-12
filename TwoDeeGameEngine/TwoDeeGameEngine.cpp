@@ -5,6 +5,8 @@
 #include <iostream>
 #include "Character.h"
 #include "Level.h"
+#include "Camera.h"
+
 
 // Event handling function
 void handleEvents(bool& isRunning, Character& character) {
@@ -41,6 +43,7 @@ int main(int argc, char* argv[]) {
 
     Character character(100, 100, 50, 50); // Create a character
     Level level(renderer, "twodeebg.png", screenWidth, screenHeight); // Create a level
+    Camera camera(screenWidth, screenHeight); // Create camera
 
 
     // Frame rate configuration
@@ -57,6 +60,7 @@ int main(int argc, char* argv[]) {
 
     while (isRunning) { // Start of game loop
   
+
         frameStart = SDL_GetTicks();
         handleEvents(isRunning, character);
 
@@ -66,7 +70,9 @@ int main(int argc, char* argv[]) {
         // Update the level
         level.update(); 
         // Update camera position based on character position
-        level.updateCamera(character.getX(), character.getY());
+        //level.updateCamera(character.getX(), character.getY());//TODO: Delete
+        camera.update(character.getX(), character.getY(), level.getWidth(), level.getHeight());
+
 
 
         // Clear screen
@@ -74,13 +80,16 @@ int main(int argc, char* argv[]) {
         // Draw the level with camera offset
         level.draw(renderer); 
         // Draw the character with camera offset
-        character.draw(renderer, level.getCameraX(), level.getCameraY()); 
+        //character.draw(renderer, level.getCameraX(), level.getCameraY()); 
+        character.draw(renderer, camera.getX(), camera.getY());
+
         // Update screen
         SDL_RenderPresent(renderer);
         // Frame time management
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime) SDL_Delay(frameDelay - frameTime);
         
+
     }
 
 

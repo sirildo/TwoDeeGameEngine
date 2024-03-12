@@ -18,30 +18,23 @@ void Level::update() {
     // Update the level state, e.g., moving platforms, enemy behavior, etc.
 }
 
-void Level::updateCamera(int x, int y) {
-    // Update camera position based on character position 
-    cameraX = x - (bgWidth / 2);
-    cameraY = y - (bgHeight / 2);
-    // Boundary checks to keep the camera within the background dimensions
-    if (cameraX < 0) cameraX = 0;
-    else if (cameraX > bgWidth - windowWidth) cameraX = bgWidth - windowWidth;
-
-    if (cameraY < 0) cameraY = 0;
-    else if (cameraY > bgHeight - windowHeight) cameraY = bgHeight - windowHeight;
-    
-
-}
+//void Level::updateCamera(int x, int y) {
+//    // Update camera position based on character position 
+//    cameraX = x - (bgWidth / 2);
+//    cameraY = y - (bgHeight / 2);
+//    // Boundary checks to keep the camera within the background dimensions
+//    if (cameraX < 0) cameraX = 0;
+//    else if (cameraX > bgWidth - windowWidth) cameraX = bgWidth - windowWidth;
+//
+//    if (cameraY < 0) cameraY = 0;
+//    else if (cameraY > bgHeight - windowHeight) cameraY = bgHeight - windowHeight;
+//    
+//
+//}
 
 void Level::draw(SDL_Renderer* renderer) {
     SDL_Rect srcRect = { 0, 0, bgWidth, bgHeight };
-    SDL_Rect destRect = { -cameraX, -cameraY, bgWidth, bgHeight };  // Adjust based on camera position
-    SDL_RenderCopy(renderer, backgroundTexture, &srcRect, &destRect);
+    //SDL_Rect destRect = { -cameraX, -cameraY, bgWidth, bgHeight };  // Adjust based on camera position
+    SDL_RenderCopy(renderer, backgroundTexture, &srcRect);
 }
 
-int Level::getCameraX() const {
-    return cameraX;
-}
-
-int Level::getCameraY() const {
-    return cameraY;
-}
