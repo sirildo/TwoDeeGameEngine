@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
         // Clear screen
         SDL_RenderClear(renderer);
         // Draw the level with camera offset
-        level.draw(renderer); 
+        level.draw(renderer, camera); 
         // Draw the character with camera offset
         //character.draw(renderer, level.getCameraX(), level.getCameraY()); 
         character.draw(renderer, camera.getX(), camera.getY());

@@ -8,6 +8,8 @@ public:
 
     int getX() const;
     int getY() const;
+    int getWidth() const;
+    int getHeight() const;
 
 private:
     int x, y; // Camera position

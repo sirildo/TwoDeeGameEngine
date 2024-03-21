@@ -25,3 +25,11 @@ int Camera::getX() const {
 int Camera::getY() const {
     return y;
 }
+
+int Camera::getWidth() const {
+    return width;
+}
+
+int Camera::getHeight() const {
+    return height;
+}
