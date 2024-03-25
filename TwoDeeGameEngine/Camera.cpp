@@ -2,20 +2,20 @@
 
 Camera::Camera(int width, int height) : x(0), y(0), width(width), height(height) {}
 
-void Camera::update(int targetX, int targetY, int levelWidth, int levelHeight) {
+void Camera::update(int targetX, int targetY, int areaWidth, int areaHeight) {
     // Center the camera over the target
     x = targetX - width / 2;
     y = targetY - height / 2;
 
-    // Adjust the camera to stay within the level boundaries
-    clampToLevelBounds(levelWidth, levelHeight);
+    // Adjust the camera to stay within the area boundaries
+    clampToAreaBounds(areaWidth, areaHeight);
 }
 
-void Camera::clampToLevelBounds(int levelWidth, int levelHeight) {
+void Camera::clampToAreaBounds(int areaWidth, int areaHeight) {
     if (x < 0) x = 0;
     if (y < 0) y = 0;
-    if (x > levelWidth - width) x = levelWidth - width;
-    if (y > levelHeight - height) y = levelHeight - height;
+    if (x > areaWidth - width) x = areaWidth - width;
+    if (y > areaHeight - height) y = areaHeight - height;
 }
 
 int Camera::getX() const {

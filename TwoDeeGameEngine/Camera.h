@@ -4,7 +4,7 @@
 class Camera {
 public:
     Camera(int width, int height);
-    void update(int targetX, int targetY, int levelWidth, int levelHeight);
+    void update(int targetX, int targetY, int areaWidth, int areaHeight);
 
     int getX() const;
     int getY() const;
@@ -16,7 +16,7 @@ private:
     int width, height; // Camera viewport dimensions
 
     // Prevents the camera from going outside the level boundaries
-    void clampToLevelBounds(int levelWidth, int levelHeight);
+    void clampToAreaBounds(int areaWidth, int areaHeight);
 };
 
 #endif // CAMERA_H
