@@ -1,4 +1,6 @@
 #include "GameLoop.h"
+#include "Area.h"
+#include "ResourceManager.h"
 #include <iostream>
 
 int main(int argc, char* argv[]) {
