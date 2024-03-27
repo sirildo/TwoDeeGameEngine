@@ -1,9 +1,16 @@
 #include "GameLoop.h"
+#include "Area.h"
 #include <iostream>
 
-GameLoop::GameLoop() : isRunning(false), window(nullptr), renderer(nullptr) {}
+Area dev_room;
+
+GameLoop::GameLoop() : isRunning(false), window(nullptr), renderer(nullptr), lastFrameTime(0) {
+
+}
 
 GameLoop::~GameLoop() {
+
+
     cleanUp();
 }
 
@@ -30,6 +37,10 @@ bool GameLoop::initialize() {
 
     // Initialize renderer color
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+    // TODO: Remove dev_room for final release
+    // Development-only: Initialize dev_room here for testing features
+    dev_room = Area(renderer, resourceManager, "twodeebg.png");
 
     lastFrameTime = SDL_GetTicks(); // Initialize the last frame time
 

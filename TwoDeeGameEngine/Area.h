@@ -15,7 +15,7 @@ public:
     virtual void update(float deltaTime);
     virtual void render();
 
-    bool isOverworldArea() const;
+    //bool isOverworldArea() const;
 
 protected:
     bool isOverworld;
